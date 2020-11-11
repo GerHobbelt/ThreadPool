@@ -7,5 +7,6 @@ project(
     LANGUAGES CXX
 )
 
-add_library(ThreadPool::ThreadPool INTERFACE)
-target_include_directories(ThreadPool::ThreadPool INTERFACE include/)
+add_library(ThreadPool INTERFACE)
+add_library(ThreadPool::ThreadPool ALIAS ThreadPool)
+target_include_directories(ThreadPool INTERFACE include/)
