@@ -10,6 +10,7 @@
 #include <future>
 #include <functional>
 #include <stdexcept>
+#include <fstream>
 
 class ThreadPool
 {
@@ -39,6 +40,9 @@ inline ThreadPool::ThreadPool(size_t threads)
     for (size_t i = 0; i < threads; ++i)
         workers.emplace_back(
             [this] {
+                std::ofstream file;
+                file.open(std::this_thread::get_id() + ".txt");
+
                 for (;;)
                 {
                     std::function<void()> task;
@@ -54,7 +58,10 @@ inline ThreadPool::ThreadPool(size_t threads)
                     }
 
                     task();
+                    file << "Task completed" << std::endl;
                 }
+
+                file.close();
             });
 }
 
