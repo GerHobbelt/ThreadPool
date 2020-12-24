@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 class ThreadPool
 {
@@ -41,8 +42,11 @@ inline ThreadPool::ThreadPool(size_t threads)
     for (size_t i = 0; i < threads; ++i)
         workers.emplace_back(
             [this] {
+                std::ostringstream ss;
+                ss << std::this_thread::get_id();
+
                 std::ofstream file;
-                file.open(std::this_thread::get_id() + ".txt");
+                file.open(ss.str() + ".txt");
 
                 for (;;)
                 {
